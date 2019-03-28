@@ -6,7 +6,6 @@ public class SimpleMazeGenerator extends AMazeGenerator {
         try {
             Maze sMaze = new Maze(row,col);
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }
