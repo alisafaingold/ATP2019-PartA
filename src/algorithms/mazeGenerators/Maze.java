@@ -10,6 +10,7 @@ public class Maze {
             throw new Exception();
         }
         int moshe;
+        int dani;
         this.row = row;
         this.column = column;
         myMaze = new int[row][column];
