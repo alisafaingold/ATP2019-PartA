@@ -9,8 +9,6 @@ public class Maze {
         if(row<=0 || column<=0){
             throw new Exception();
         }
-        int moshe;
-        int dani;
         this.row = row;
         this.column = column;
         myMaze = new int[row][column];
