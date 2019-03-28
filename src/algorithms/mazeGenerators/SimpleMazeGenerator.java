@@ -9,22 +9,32 @@ public class SimpleMazeGenerator extends AMazeGenerator {
             Position startPos = new Position(randRow,0);
             int curRow = randRow;
             int curCol = 0;
-            simpleMaze.setValueToCell(curRow,curCol,0);
-            while(curRow<row && curCol< col){
+            simpleMaze.setStartPosition(new Position(curRow,curCol));
+            int colGoal=curCol;
+            int rowGoal=curRow;
+
+            while(curRow<row && curCol< col && curCol>=0 && curRow>=0){
                 double randDirection = Math.random();
                 if(randDirection < 0.33){
-                    curRow--;
+                    colGoal=curCol;
+                    rowGoal=curRow;
                     simpleMaze.setValueToCell(curRow,curCol,0);
+                    curRow--;
                 }
                 else if(randDirection < 0.66){
-                    curRow++;
+                    colGoal=curCol;
+                    rowGoal=curRow;
                     simpleMaze.setValueToCell(curRow,curCol,0);
+                    curRow++;
                 }
                 else{
-                    curCol++;
+                    colGoal=curCol;
+                    rowGoal=curRow;
                     simpleMaze.setValueToCell(curRow,curCol,0);
+                    curCol++;
                 }
             }
+            simpleMaze.setGoalPosition(new Position(curRow,curCol));
             return simpleMaze;
         } catch (Exception e) {
             e.printStackTrace();

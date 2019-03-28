@@ -5,6 +5,16 @@ public class Maze {
     private int row;
     private int column;
     private int[][] myMaze;
+    private Position startPosition;
+    private Position GoalPosition;
+
+    public void setStartPosition(Position startPosition) {
+        this.startPosition = startPosition;
+    }
+
+    public void setGoalPosition(Position goalPosition) {
+        GoalPosition = goalPosition;
+    }
 
     public Maze(int row, int column) throws Exception {
         if(row<=0 || column<=0){
@@ -25,11 +35,11 @@ public class Maze {
     }
 
     public Position getStartPosition(){
-        return null;
+        return startPosition;
     }
 
     public Position getGoalPosition(){
-        return null;
+        return GoalPosition;
     }
 
     public void print(){
