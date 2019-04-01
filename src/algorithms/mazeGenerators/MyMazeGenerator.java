@@ -14,16 +14,21 @@ public class MyMazeGenerator extends AMazeGenerator{
             myStack.push(start);
             myMaze.setStartPosition(start);
             Position next,last = new Position(0,0);
+            boolean firstTimeBack=false;
             while(!myStack.empty()){
                 next= myStack.pop();
-                if (validNextPosition(next)){
-                    myMaze.setValueToCell(next.getRowIndex(),next.getColumnIndex(),0);
+                if (validNextPosition(next)) {
+                    myMaze.setValueToCell(next.getRowIndex(), next.getColumnIndex(), 0);
                     ArrayList<Position> myNeighbors = findMyNeighbors(next);
                     Collections.shuffle(myNeighbors);
                     myStack.addAll(myNeighbors);
-                    last= next;
                 }
+                    if((next.getColumnIndex()==col-1||next.getRowIndex()==row-1)&&!firstTimeBack){
+                        last= next;
+                        firstTimeBack=true;
+                    }
             }
+
             myMaze.setGoalPosition(last);
         }
         catch (Exception e) {
@@ -36,7 +41,7 @@ public class MyMazeGenerator extends AMazeGenerator{
         ArrayList<Position> myNeighbors = findMyNeighbors(pos);
         for (Position x:
                 myNeighbors) {
-            if (myMaze.getCellValue(x.getRowIndex(),x.getColumnIndex()) == 0) {
+            if (myMaze.getCellValue(x.getRowIndex(),x.getColumnIndex()) != 1) {
                 numNeighboringOnes++;
             }
         }
