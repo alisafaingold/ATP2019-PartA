@@ -34,23 +34,38 @@ public class Maze {
         myMaze[row][col]=val;
     }
 
+    public int getCellValue(int row, int col){
+        if(!isSafe(row,col)){
+            return -1;
+        }
+        return myMaze[row][col];
+    }
+
     public Position getStartPosition(){
         return startPosition;
     }
-
     public Position getGoalPosition(){
         return GoalPosition;
     }
+    boolean isSafe(int x, int y)
+    {
+        return (x >= 0 && x < row && y >= 0 && y < column );
+    }
 
     public void print(){
-        Arrays.stream(myMaze)
-                .forEach(
-                        (row) -> {
-                            System.out.print("[");
-                            Arrays.stream(row)
-                                    .forEach((el) -> System.out.print(" " + el + " "));
-                            System.out.println("]");
-                        }
-                );
+        for(int i=0; i<row; i++){
+            for(int j=0; j<column; j++){
+                if(i==GoalPosition.getRowIndex() && j==GoalPosition.getColumnIndex()){
+                    System.out.print(" E ");
+                }
+                else if(i==startPosition.getRowIndex() && j==startPosition.getColumnIndex()){
+                    System.out.print(" S ");
+                }
+                else{
+                    System.out.print(" " + myMaze[i][j] + " ");
+                }
+            }
+            System.out.println();
+        }
     }
 }
