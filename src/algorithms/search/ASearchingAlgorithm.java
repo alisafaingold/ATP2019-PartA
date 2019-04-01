@@ -1,4 +1,4 @@
-package algorithms.mazeGenerators.search;
+package algorithms.search;
 
 abstract public class ASearchingAlgorithm implements ISearchingAlgorithm {
 }

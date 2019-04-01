@@ -1,4 +1,4 @@
-package algorithms.mazeGenerators.mazeGenerators;
+package algorithms.mazeGenerators;
 import java.util.*;
 
 

@@ -1,4 +1,4 @@
-package algorithms.mazeGenerators.mazeGenerators;
+package algorithms.mazeGenerators;
 
 public class Maze {
     private int row;
