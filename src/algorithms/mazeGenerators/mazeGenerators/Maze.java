@@ -1,5 +1,4 @@
-package algorithms.mazeGenerators;
-import java.util.Arrays;
+package algorithms.mazeGenerators.mazeGenerators;
 
 public class Maze {
     private int row;

@@ -1,4 +1,4 @@
-package algorithms.mazeGenerators;
+package algorithms.mazeGenerators.mazeGenerators;
 
 public abstract class AMazeGenerator implements IMazeGenerator{
     public long measureAlgorithmTimeMillis(int col, int row){
