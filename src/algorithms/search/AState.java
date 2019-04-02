@@ -1,7 +1,16 @@
 package algorithms.search;
 
-abstract public class AState {
+abstract public class AState implements Comparable{
     protected String state;
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
     protected double cost;
     protected AState cameFrom;
 
@@ -25,5 +34,10 @@ abstract public class AState {
             return this.state.equals(state1.state);
         }
         return false;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return (int)(this.cost - ((AState)o).cost);
     }
 }

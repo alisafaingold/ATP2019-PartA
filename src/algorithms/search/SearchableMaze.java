@@ -38,16 +38,16 @@ public class SearchableMaze implements ISearchable {
     private ArrayList<MazeState> validInRow(int rowOrigin, int colOrigin, MazeState s){
         ArrayList<MazeState> corners= new ArrayList<>();
         if (myMaze.isPassable(rowOrigin, colOrigin)){
-            MazeState curr = new MazeState("{"+rowOrigin+","+colOrigin+"}");
+            MazeState curr = new MazeState("{"+rowOrigin+","+colOrigin+"}",2);
             curr.setCameFrom(s);
             corners.add(curr);
             if(myMaze.isPassable(rowOrigin, colOrigin-1)){
-                MazeState corner1 = new MazeState("{"+rowOrigin+","+(colOrigin-1)+"}");
+                MazeState corner1 = new MazeState("{"+rowOrigin+","+(colOrigin-1)+"}",1);
                 corner1.setCameFrom(s);
                 corners.add(corner1);
             }
             if(myMaze.isPassable(rowOrigin, colOrigin+1)){
-                MazeState corner2 = new MazeState("{"+rowOrigin+","+(colOrigin+1)+"}");
+                MazeState corner2 = new MazeState("{"+rowOrigin+","+(colOrigin+1)+"}",1);
                 corner2.setCameFrom(s);
                 corners.add(corner2);
             }
@@ -58,16 +58,16 @@ public class SearchableMaze implements ISearchable {
     private Set<MazeState> validInColumn(int rowOrigin, int colOrigin, MazeState s){
         Set<MazeState> corners= new HashSet<>();
         if (myMaze.isPassable(rowOrigin, colOrigin)){
-            MazeState curr = new MazeState("{"+rowOrigin+","+colOrigin+"}");
+            MazeState curr = new MazeState("{"+rowOrigin+","+colOrigin+"}",2);
             curr.setCameFrom(s);
             corners.add(curr);
             if(myMaze.isPassable(rowOrigin-1, colOrigin)){
-                MazeState corner1 = new MazeState("{"+(rowOrigin-1)+","+colOrigin+"}");
+                MazeState corner1 = new MazeState("{"+(rowOrigin-1)+","+colOrigin+"}",1);
                 corner1.setCameFrom(s);
                 corners.add(corner1);
             }
             if(myMaze.isPassable(rowOrigin+1, colOrigin)){
-                MazeState corner2 = new MazeState("{"+(rowOrigin+1)+","+colOrigin+"}");
+                MazeState corner2 = new MazeState("{"+(rowOrigin+1)+","+colOrigin+"}",1);
                 corner2.setCameFrom(s);
                 corners.add(corner2);
             }
