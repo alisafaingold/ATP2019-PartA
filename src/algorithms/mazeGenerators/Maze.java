@@ -46,9 +46,14 @@ public class Maze {
     public Position getGoalPosition(){
         return GoalPosition;
     }
-    boolean isSafe(int x, int y)
+
+    public boolean isSafe(int x, int y)
     {
         return (x >= 0 && x < row && y >= 0 && y < column );
+    }
+
+    public boolean isPassable(int row, int col){
+        return isSafe(row, col) && myMaze[row][col]==0;
     }
 
     public void print(){

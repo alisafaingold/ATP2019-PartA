@@ -36,6 +36,7 @@ public class MyMazeGenerator extends AMazeGenerator{
         }
         return  myMaze;
     }
+
     private boolean validNextPosition(Position pos) {
         int numNeighboringOnes = 0;
         ArrayList<Position> myNeighbors = findMyNeighbors(pos);
