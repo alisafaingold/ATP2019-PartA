@@ -30,7 +30,14 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
             }
             if(visited.get(s.toString())==false)
             {
+                if(s.getCameFrom()!=null){
+                    visited.put(s.getCameFrom().toString(),true);
+                }
                 visited.put(s.toString(),true);
+            }
+            else
+            {
+                continue;
             }
             ArrayList<AState> possible= domain.getAllPossibleStates(s);
             Iterator<AState> itr = possible.iterator();
@@ -39,12 +46,11 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
                 AState v = itr.next();
                 if(visited.containsKey(v.toString())) {
                     if(!visited.get(v.toString())){
-                        v.setCameFrom(s);
                         stack.push(v);
                     }
-                }else{
+                }
+                else{
                     visited.put(v.toString(),false);
-                    v.setCameFrom(s);
                     stack.push(v);
                 }
             }

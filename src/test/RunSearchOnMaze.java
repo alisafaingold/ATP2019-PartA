@@ -13,12 +13,19 @@ import java.util.ArrayList;
 public class RunSearchOnMaze {
     public static void main(String[] args) {
         IMazeGenerator mg = new MyMazeGenerator();
-        Maze maze = mg.generate(1000, 1000);
-        System.out.println(s1.equals(s2));
+        Maze maze = mg.generate(40, 40);
         maze.print();
         SearchableMaze searchableMaze = new SearchableMaze(maze);
-
+        /**double sum=0;
+        for(int i=0; i<50; i++){
+            maze = mg.generate(1000, 1000);
+            //maze.print();
+            searchableMaze = new SearchableMaze(maze);
+            sum += (new DepthFirstSearch()).measureAlgorithmTimeMillis(searchableMaze);
+        }
+        System.out.println(sum/50);**/
         //solveProblem(searchableMaze, new BreadthFirstSearch());
+        /** Average Time - 2373.5 out of 50 Tests **/
         solveProblem(searchableMaze, new DepthFirstSearch());
         //solveProblem(searchableMaze, new BestFirstSearch());
     }
