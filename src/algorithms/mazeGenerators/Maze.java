@@ -15,12 +15,14 @@ public class Maze {
         GoalPosition = goalPosition;
     }
 
-    public Maze(int row, int column) throws Exception {
-        if(row<=0 || column<=0){
-            throw new Exception();
+    public Maze(int row, int column){
+        if(row<3 || column<3){
+            this.row = 10;
+            this.column = 10;
         }
+        else{
         this.row = row;
-        this.column = column;
+        this.column = column;}
         myMaze = new int[row][column];
         for(int i =0; i<row; i++){
             for (int j=0; j<column; j++){
