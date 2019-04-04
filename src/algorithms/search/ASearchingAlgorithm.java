@@ -15,9 +15,12 @@ abstract public class ASearchingAlgorithm implements ISearchingAlgorithm {
     }
 
     public long measureAlgorithmTimeMillis(ISearchable search) {
-        long startTime = System.currentTimeMillis();
-        Solution sol = solve(search);
-        long endTime = System.currentTimeMillis();
-        return endTime - startTime;
+        if (search != null) {
+            long startTime = System.currentTimeMillis();
+            solve(search);
+            long endTime = System.currentTimeMillis();
+            return endTime - startTime;
+        }
+        return 0;
     }
 }

@@ -5,38 +5,37 @@ import java.util.*;
 public class BreadthFirstSearch extends ASearchingAlgorithm {
 
     public BreadthFirstSearch() {
-        name = "BreadthFirstSearch";
+        name = "Breadth First Search";
     }
 
     @Override
     public Solution solve(ISearchable domain) {
-        Queue<AState> Q = new LinkedList<>();
-        HashMap<String, Boolean> visited = new HashMap<>();
-        AState s = domain.getStartState();
-        AState e = domain.getGoalState();
+        if (domain != null) {
+            Queue<AState> myQueue = new LinkedList<>();
+            HashMap<String, Boolean> visited = new HashMap<>();
+            AState startState = domain.getStartState();
+            AState endState = domain.getGoalState();
 
-        Q.offer(s);
-        visited.put(s.toString(), true);
-        while (Q.peek() != null) {
-            AState current = Q.poll();
-            numOfNodes++;
-            ArrayList<AState> neighbors = domain.getAllPossibleStates(current);
-            /**if(e.equals(current)) {
-             return new Solution(current);
-             }**/
-            // else{
-            for (AState neighbor : neighbors) {
-                if (!visited.containsKey(neighbor.toString())) {
-                    visited.put(neighbor.toString(), true);
-                    Q.offer(neighbor);
-                }
-                if (e.equals(neighbor)) {
-                    return new Solution(neighbor);
+            myQueue.offer(startState);
+            visited.put(startState.toString(), true);
+            while (myQueue.peek() != null) {
+                AState current = myQueue.poll();
+                numOfNodes++;
+                ArrayList<AState> neighbors = domain.getAllPossibleStates(current);
+                for (AState neighbor : neighbors) {
+                    if (!visited.containsKey(neighbor.toString())) {
+                        visited.put(neighbor.toString(), true);
+                        myQueue.offer(neighbor);
+                    }
+                    if (endState.equals(neighbor)) {
+                        return new Solution(neighbor);
+                    }
                 }
             }
-            //visited.put(current.toString(), true);
-            // }
+            return new Solution(startState);
         }
-        return null;
+        else{
+            return new Solution();
+        }
     }
 }

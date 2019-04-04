@@ -4,64 +4,77 @@ import java.util.*;
 
 
 public class MyMazeGenerator extends AMazeGenerator {
-    private Stack<Position> myStack = new Stack<>();
-    Maze myMaze;
 
     @Override
-    public Maze generate(int col, int row) {
-        myMaze = new Maze(col, row);
+    public Maze generate(int row, int col) {
+        Maze myMaze = new Maze(row, col);
+        ArrayList<Position> myList = new ArrayList<>();
+        HashSet<String> isVisited = new HashSet<>();
         Position start = new Position(0, 0);
-        myStack.push(start);
+        Position next = new Position(0, 0), curr = new Position(0, 0);
+        myList.add(start);
+        isVisited.add(start.toString());
         myMaze.setStartPosition(start);
-        Position next, last = new Position(0, 0);
-        boolean firstTimeBack = false;
-        while (!myStack.empty()) {
-            next = myStack.pop();
-            if (validNextPosition(next)) {
+        myMaze.setValueToCell(next.getRowIndex(), next.getColumnIndex(), 0);
+        while (!myList.isEmpty()) {
+            next = findMyNeighbors(curr, isVisited, myMaze);
+            if (next != null) {
                 myMaze.setValueToCell(next.getRowIndex(), next.getColumnIndex(), 0);
-                ArrayList<Position> myNeighbors = findMyNeighbors(next);
-                Collections.shuffle(myNeighbors);
-                myStack.addAll(myNeighbors);
-            }
-            if ((next.getColumnIndex() == col - 1 || next.getRowIndex() == row - 1) && !firstTimeBack) {
-                last = next;
-                firstTimeBack = true;
+                breakWall(curr, next, myMaze, isVisited);
+                curr = next;
+                myList.add(curr);
+                isVisited.add(curr.toString());
+                myMaze.setGoalPosition(curr);
+            } else {
+                myList.remove(curr);
+                if (!myList.isEmpty()) {
+                    curr = myList.get(0);
+                }
             }
         }
-        myMaze.setGoalPosition(last);
         return myMaze;
     }
 
-    private boolean validNextPosition(Position pos) {
-        int numNeighboringOnes = 0;
-        ArrayList<Position> myNeighbors = findMyNeighbors(pos);
-        for (Position x :
-                myNeighbors) {
-            if (myMaze.getCellValue(x.getRowIndex(), x.getColumnIndex()) != 1) {
-                numNeighboringOnes++;
-            }
-        }
-        return (numNeighboringOnes < 2) && myMaze.getCellValue(pos.getRowIndex(), pos.getColumnIndex()) != 0;
-    }
 
-
-    private ArrayList<Position> findMyNeighbors(Position pos) {
+    private Position findMyNeighbors(Position pos, HashSet<String> isVisited, Maze myMaze) {
         ArrayList<Position> neighbors = new ArrayList<>();
-        if (myMaze.isSafe(pos.getRowIndex() - 1, pos.getColumnIndex())) {
-            neighbors.add(new Position(pos.getRowIndex() - 1, pos.getColumnIndex()));
-        }
-        if (myMaze.isSafe(pos.getRowIndex(), pos.getColumnIndex() - 1)) {
-            neighbors.add(new Position(pos.getRowIndex(), pos.getColumnIndex() - 1));
-        }
-        if (myMaze.isSafe(pos.getRowIndex() + 1, pos.getColumnIndex())) {
-            neighbors.add(new Position(pos.getRowIndex() + 1, pos.getColumnIndex()));
-        }
-        if (myMaze.isSafe(pos.getRowIndex(), pos.getColumnIndex() + 1)) {
-            neighbors.add(new Position(pos.getRowIndex(), pos.getColumnIndex() + 1));
-        }
-        return neighbors;
+        int row = pos.getRowIndex(), col = pos.getColumnIndex();
+        if (isValidNeighbor(row - 2, col, myMaze, isVisited))
+            neighbors.add(new Position(row - 2, col));
+        if (isValidNeighbor(row, col - 2, myMaze, isVisited))
+            neighbors.add(new Position(row, col - 2));
+        if (isValidNeighbor(row + 2, col, myMaze, isVisited))
+            neighbors.add(new Position(row + 2, col));
+        if (isValidNeighbor(row, col + 2, myMaze, isVisited))
+            neighbors.add(new Position(row, col + 2));
+        if (neighbors.isEmpty())
+            return null;
+        Collections.shuffle(neighbors);
+        return neighbors.get(0);
     }
 
+    private void breakWall(Position curr, Position next, Maze myMaze, HashSet<String> isVisited) {
+        int currRow = curr.getRowIndex(), currCol = curr.getColumnIndex();
+        int rowDiff = currRow - next.getRowIndex();
+        int colDiff = currCol - next.getColumnIndex();
+        if (rowDiff > 0)
+            setAndMarkAsVisited(currRow - 1, currCol, myMaze, isVisited);
+        if (rowDiff < 0)
+            setAndMarkAsVisited(currRow + 1, currCol, myMaze, isVisited);
+        if (colDiff > 0)
+            setAndMarkAsVisited(currRow, currCol - 1, myMaze, isVisited);
+        if (colDiff < 0)
+            setAndMarkAsVisited(currRow, currCol + 1, myMaze, isVisited);
+    }
+
+    private void setAndMarkAsVisited(int row, int col, Maze myMaze, HashSet<String> isVisited) {
+        myMaze.setValueToCell(row, col, 0);
+        isVisited.add(new Position(row, col).toString());
+    }
+
+    private boolean isValidNeighbor(int row, int col, Maze myMaze, HashSet<String> isVisited) {
+        return myMaze.isSafe(row, col) && !isVisited.contains((new Position(row, col)).toString());
+    }
 
 }
 
