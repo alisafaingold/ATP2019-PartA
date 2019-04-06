@@ -11,13 +11,13 @@ abstract public class ASearchingAlgorithm implements ISearchingAlgorithm {
 
     @Override
     public String getNumberOfNodesEvaluated() {
-        return numOfNodes+"";
+        return numOfNodes + "";
     }
 
-    public long measureAlgorithmTimeMillis(ISearchable search){
-        long startTime= System.currentTimeMillis();
+    public long measureAlgorithmTimeMillis(ISearchable search) {
+        long startTime = System.currentTimeMillis();
         Solution sol = solve(search);
-        long endTime=System.currentTimeMillis();
-        return endTime-startTime;
+        long endTime = System.currentTimeMillis();
+        return endTime - startTime;
     }
 }

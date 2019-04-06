@@ -1,9 +1,6 @@
 package algorithms.search;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Stack;
+import java.util.*;
 
 public class DepthFirstSearch extends ASearchingAlgorithm{
 
@@ -15,46 +12,32 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
     public Solution solve(ISearchable domain) {
 
         Stack<AState> stack = new Stack<>();
-        HashMap<String, Boolean> visited = new HashMap<>();
+        HashMap<String,Iterator> iterators = new HashMap<>();
         AState s = domain.getStartState();
         AState e = domain.getGoalState();
+        ArrayList<AState> neighbors = domain.getAllPossibleStates(s);
+        Iterator<AState> iter = neighbors.iterator();
+        iterators.put(s.toString(),iter);
         stack.push(s);
-        visited.put(s.toString(),false);
-        while(!stack.empty())
-        {
-            s = stack.peek();
-            this.numOfNodes++;
-            stack.pop();
-            if(e.equals(s)){
-                return new Solution(s);
+        while(!stack.empty()) {
+            AState curr = stack.peek();
+            numOfNodes++;
+            if(curr.equals(e)){
+                return new Solution(curr);
             }
-            if(visited.get(s.toString())==false)
-            {
-                if(s.getCameFrom()!=null){
-                    visited.put(s.getCameFrom().toString(),true);
+            if(iterators.get(curr.toString()).hasNext()){
+                AState x = (AState)iterators.get(curr.toString()).next();
+                if(!iterators.containsKey(x.toString())){
+                    neighbors = domain.getAllPossibleStates(x);
+                    iter = neighbors.iterator();
+                    iterators.put(x.toString(),iter);
+                    stack.push(x);
                 }
-                visited.put(s.toString(),true);
             }
-            else
-            {
-                continue;
-            }
-            ArrayList<AState> possible= domain.getAllPossibleStates(s);
-            Iterator<AState> itr = possible.iterator();
-            while (itr.hasNext())
-            {
-                AState v = itr.next();
-                if(visited.containsKey(v.toString())) {
-                    if(!visited.get(v.toString())){
-                        stack.push(v);
-                    }
-                }
-                else{
-                    visited.put(v.toString(),false);
-                    stack.push(v);
-                }
+            else{
+                stack.pop();
             }
         }
-        return null;
+        return new Solution(s);
     }
 }

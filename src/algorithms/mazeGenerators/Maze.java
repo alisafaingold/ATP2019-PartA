@@ -1,8 +1,8 @@
 package algorithms.mazeGenerators;
 
 public class Maze {
-    private int row;
-    private int column;
+    public int row;
+    public int column;
     private int[][] myMaze;
     private Position startPosition;
     private Position GoalPosition;
@@ -15,12 +15,14 @@ public class Maze {
         GoalPosition = goalPosition;
     }
 
-    public Maze(int row, int column) throws Exception {
-        if(row<=0 || column<=0){
-            throw new Exception();
+    public Maze(int row, int column){
+        if(row<3 || column<3){
+            this.row = 10;
+            this.column = 10;
         }
+        else{
         this.row = row;
-        this.column = column;
+        this.column = column;}
         myMaze = new int[row][column];
         for(int i =0; i<row; i++){
             for (int j=0; j<column; j++){
@@ -59,10 +61,11 @@ public class Maze {
     public void print(){
        for(int i=0; i<row; i++){
             for(int j=0; j<column; j++){
-                if(i==GoalPosition.getRowIndex() && j==GoalPosition.getColumnIndex()){
+                /**if(i==GoalPosition.getRowIndex() && j==GoalPosition.getColumnIndex()){
                     System.out.print(" E ");
-                }
-                else if(i==startPosition.getRowIndex() && j==startPosition.getColumnIndex()){
+                }**/
+                //else
+                    if(i==startPosition.getRowIndex() && j==startPosition.getColumnIndex()){
                     System.out.print(" S ");
                 }
                 else{
@@ -71,17 +74,18 @@ public class Maze {
             }
             System.out.println();
         }
-        /**for (int i = 0; i < myMaze.length; i++) {
+        for (int i = 0; i < myMaze.length; i++) {
             for (int j = 0; j < myMaze[i].length; j++) {
                 if (i == startPosition.getRowIndex() && j == startPosition.getColumnIndex()) {//startPosition
                     System.out.print(" " + "\u001B[44m" + " ");
-                } else if (i == GoalPosition.getRowIndex() && j == GoalPosition.getColumnIndex()) {//goalPosition
-                    System.out.print(" " + "\u001B[44m" + " ");
-                } else if (myMaze[i][j] == 1) System.out.print(" " + "\u001B[45m" + " ");
+                }
+                //else if (i == GoalPosition.getRowIndex() && j == GoalPosition.getColumnIndex()) {//goalPosition
+                    //System.out.print(" " + "\u001B[44m" + " ");
+                else if (myMaze[i][j] == 1) System.out.print(" " + "\u001B[45m" + " ");
                 else System.out.print(" " + "\u001B[107m" + " ");
             }
             System.out.println(" " + "\u001B[107m");
-        }**/
+        }
 
     }
 }
