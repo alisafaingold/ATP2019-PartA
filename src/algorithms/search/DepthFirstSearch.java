@@ -2,42 +2,39 @@ package algorithms.search;
 
 import java.util.*;
 
-public class DepthFirstSearch extends ASearchingAlgorithm{
+public class DepthFirstSearch extends ASearchingAlgorithm {
 
     public DepthFirstSearch() {
-        name = "DFS";
+        name = "Depth First Search";
     }
 
     @Override
     public Solution solve(ISearchable domain) {
-
-        Stack<AState> stack = new Stack<>();
-        HashMap<String,Iterator> iterators = new HashMap<>();
-        AState s = domain.getStartState();
-        AState e = domain.getGoalState();
-        ArrayList<AState> neighbors = domain.getAllPossibleStates(s);
-        Iterator<AState> iter = neighbors.iterator();
-        iterators.put(s.toString(),iter);
-        stack.push(s);
-        while(!stack.empty()) {
-            AState curr = stack.peek();
-            numOfNodes++;
-            if(curr.equals(e)){
-                return new Solution(curr);
-            }
-            if(iterators.get(curr.toString()).hasNext()){
-                AState x = (AState)iterators.get(curr.toString()).next();
-                if(!iterators.containsKey(x.toString())){
-                    neighbors = domain.getAllPossibleStates(x);
-                    iter = neighbors.iterator();
-                    iterators.put(x.toString(),iter);
-                    stack.push(x);
+        if (domain != null) {
+            Stack<AState> myStack = new Stack<>();
+            HashSet<String> visited = new HashSet<>();
+            AState startState = domain.getStartState();
+            AState endState = domain.getGoalState();
+            myStack.push(startState);
+            while (!myStack.empty()) {
+                numOfNodes++;
+                AState curr = myStack.pop();
+                if (curr.equals(endState)) {
+                    return new Solution(curr);
+                }
+                ArrayList<AState> neighbors = domain.getAllPossibleStates(curr);
+                for (AState neighbor : neighbors) {
+                    if (!visited.contains(neighbor.toString())) {
+                        visited.add(neighbor.toString());
+                        myStack.push(neighbor);
+                    }
                 }
             }
-            else{
-                stack.pop();
-            }
+            return new Solution(startState);
         }
-        return new Solution(s);
+        else{
+            return new Solution();
+        }
     }
+
 }

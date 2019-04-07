@@ -1,26 +1,27 @@
 package algorithms.search;
 
+import algorithms.mazeGenerators.Position;
+
 public class MazeState extends AState {
+    private Position position;
 
-    public MazeState(String state) {
-        this.state = state;
+    public MazeState(Position position) {
+        super(position != null ? position.toString() : "");
+        if (position != null) {
+            this.position = position;
+        }
     }
 
-    public MazeState(String state, double cost) {
-        this.state = state;
-        this.cost = cost;
+    public int getRow() {
+        if(this.position!=null)
+            return position.getRowIndex();
+        return -1;
     }
 
-    public int getRow(){
-        String withoutB = state.substring(1,state.length()-1);
-        String [] stParts = withoutB.split(",");
-        return Integer.parseInt(stParts[0]);
-    }
-
-    public int getColumn(){
-        String withoutB = state.substring(1,state.length()-1);
-        String [] stParts = withoutB.split(",");
-        return Integer.parseInt(stParts[1]);
+    public int getColumn() {
+        if(this.position!=null)
+            return position.getColumnIndex();
+        return -1;
     }
 
 }

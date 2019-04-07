@@ -1,9 +1,16 @@
 package algorithms.mazeGenerators;
-
+/**
+ *An abstract class of maze generator which implements IMazeGenerator interface
+ */
 public abstract class AMazeGenerator implements IMazeGenerator{
-    public long measureAlgorithmTimeMillis(int col, int row) {
+    /**
+     * @param row
+     * @param col
+     * @return The time it took to generate the maze
+     */
+    public long measureAlgorithmTimeMillis(int row, int col) {
         long startTime = System.currentTimeMillis();
-        Maze newMze = generate(col, row);
+        generate(row, col);
         long endTime = System.currentTimeMillis();
         return endTime - startTime;
     }
