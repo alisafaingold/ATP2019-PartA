@@ -33,7 +33,7 @@ public class SimpleMazeGenerator extends AMazeGenerator {
                 //set him as open cell, with value '0'
                 myMaze.setValueToCell(next.getRowIndex(), next.getColumnIndex(), 0);
                 ArrayList<Position> myNeighbors = findMyNeighbors(next,myMaze);
-                //add all the cell's neighbors in radon order
+                //add all the cell's neighbors in random order
                 Collections.shuffle(myNeighbors);
                 myStack.addAll(myNeighbors);
             }
