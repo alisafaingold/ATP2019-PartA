@@ -6,10 +6,10 @@ package algorithms.mazeGenerators;
 public class Position {
     private int row;
     private int col;
-    //boolean open = true;
 
     /**
-     * constructor
+     * Constructor
+     *
      * @param row
      * @param col
      */
@@ -37,6 +37,6 @@ public class Position {
      */
     @Override
     public String toString() {
-        return "{"+row+","+col+"}";
+        return "{" + row + "," + col + "}";
     }
 }

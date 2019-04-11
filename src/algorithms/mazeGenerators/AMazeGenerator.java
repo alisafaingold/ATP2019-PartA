@@ -1,8 +1,9 @@
 package algorithms.mazeGenerators;
+
 /**
- *An abstract class of maze generator which implements IMazeGenerator interface
+ * An abstract class of maze generator which implements IMazeGenerator interface
  */
-public abstract class AMazeGenerator implements IMazeGenerator{
+public abstract class AMazeGenerator implements IMazeGenerator {
     /**
      * @param row
      * @param col

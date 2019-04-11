@@ -1,6 +1,7 @@
 package algorithms.search;
 
 import java.util.*;
+
 /**
  * A Depth First Search algorithm class
  */
@@ -12,7 +13,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
 
     /**
      * @param domain
-     * @return Solution to the maze solved by the algorithm
+     * @return Solution to the problem solved by the algorithm
      */
     @Override
     public Solution solve(ISearchable domain) {
@@ -43,10 +44,9 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
                     }
                 }
             }
+            //if the algorithm failed to reach the end position, return the start state
             return new Solution(startState);
-        }
-        //if the algorithm failed to reach the end position, return an empty solution
-        else{
+        } else {
             return new Solution();
         }
     }

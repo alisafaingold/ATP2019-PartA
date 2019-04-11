@@ -1,9 +1,16 @@
 package algorithms.mazeGenerators;
 
 /**
- * Generate an empty maze where all cell's value is '0'
+ * EmptyMazeGenerator class which extends the AMazeGenerator
  */
 public class EmptyMazeGenerator extends AMazeGenerator {
+    /**
+     * Generate an empty maze where all cell's value is '0'
+     *
+     * @param row - how many rows in the maze
+     * @param col - how many columns in the maze
+     * @return new Maze without any walls
+     */
     @Override
     public Maze generate(int row, int col) {
         Maze newMaze = new Maze(row, col);

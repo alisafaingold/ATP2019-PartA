@@ -29,10 +29,10 @@ public class SimpleMazeGenerator extends AMazeGenerator {
         while (!myStack.empty()) {
             next = myStack.pop();
             //if the current cell have a cell that you can move through
-            if (validNextPosition(next,myMaze)) {
+            if (validNextPosition(next, myMaze)) {
                 //set him as open cell, with value '0'
                 myMaze.setValueToCell(next.getRowIndex(), next.getColumnIndex(), 0);
-                ArrayList<Position> myNeighbors = findMyNeighbors(next,myMaze);
+                ArrayList<Position> myNeighbors = findMyNeighbors(next, myMaze);
                 //add all the cell's neighbors in random order
                 Collections.shuffle(myNeighbors);
                 myStack.addAll(myNeighbors);

@@ -79,7 +79,8 @@ public class MyMazeGenerator extends AMazeGenerator {
     }
 
     /**
-     *Breaking the wall between the two cells, checking which wall should be broken
+     * Breaking the wall between the two cells, checking which wall should be broken
+     *
      * @param curr
      * @param next
      * @param myMaze
@@ -105,6 +106,7 @@ public class MyMazeGenerator extends AMazeGenerator {
 
     /**
      * Adds the cell to the list of cells that have already been visited and puts the value '0'
+     *
      * @param row
      * @param col
      * @param myMaze

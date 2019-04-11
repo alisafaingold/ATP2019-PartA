@@ -9,10 +9,12 @@ public class Maze {
     private int column; //the column number of the cell (Column 0 is the left)
     private Position startPosition; //the initial position
     private Position GoalPosition; //the target position
+
     /**
      * Create a maze containing only walls, the values of each cell are '1'
      * get as parameters the size of the maze you want to create
      * if the parameters are accepted smaller than 3, a default maze will be created at size 10X10
+     *
      * @param row
      * @param column
      */
@@ -30,10 +32,13 @@ public class Maze {
                 myMaze[i][j] = 1;
             }
         }
+        startPosition = new Position(0,0);
+        GoalPosition = new Position(0,0);
     }
 
     /**
-     *Applying value to a particular cell in the array
+     * Applying value to a particular cell in the array
+     *
      * @param row
      * @param col
      * @param val
@@ -71,19 +76,21 @@ public class Maze {
 
     /**
      * set up an initial position
+     *
      * @param startPosition
      */
     public void setStartPosition(Position startPosition) {
-        if(startPosition!=null && isSafe(startPosition.getRowIndex(), startPosition.getColumnIndex()))
+        if (startPosition != null && isSafe(startPosition.getRowIndex(), startPosition.getColumnIndex()))
             this.startPosition = startPosition;
     }
 
     /**
      * set a target position
+     *
      * @param goalPosition
      */
     public void setGoalPosition(Position goalPosition) {
-        if(goalPosition != null && isSafe(startPosition.getRowIndex(), startPosition.getColumnIndex()))
+        if (goalPosition != null && isSafe(goalPosition.getRowIndex(), goalPosition.getColumnIndex()))
             GoalPosition = goalPosition;
     }
 
@@ -123,24 +130,6 @@ public class Maze {
      * print function
      */
     public void print() {
-        for (int i = 0; i < myMaze.length; i++) {
-            for (int j = 0; j < myMaze[i].length; j++) {
-                if (i == startPosition.getRowIndex() && j == startPosition.getColumnIndex()) {//startPosition
-                    System.out.print(" " + "\u001B[44m" + " ");
-                } else if (i == GoalPosition.getRowIndex() && j == GoalPosition.getColumnIndex()) {//goalPosition
-                    System.out.print(" " + "\u001B[44m" + " ");
-                } else if (myMaze[i][j] == 1) System.out.print(" " + "\u001B[40m" + " ");
-                else System.out.print(" " + "\u001B[107m" + " ");
-            }
-            System.out.println(" " + "\u001B[107m");
-        }
-
-    }
-
-    /**
-     * simple print function
-     */
-    public void simplePrint() {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 if (i == GoalPosition.getRowIndex() && j == GoalPosition.getColumnIndex()) {
@@ -152,6 +141,23 @@ public class Maze {
                 }
             }
             System.out.println();
+        }
+    }
+
+    /**
+     * simple print function
+     */
+    public void simplePrint() {
+        for (int i = 0; i < myMaze.length; i++) {
+            for (int j = 0; j < myMaze[i].length; j++) {
+                if (i == startPosition.getRowIndex() && j == startPosition.getColumnIndex()) {//startPosition
+                    System.out.print(" " + "\u001B[44m" + " ");
+                } else if (i == GoalPosition.getRowIndex() && j == GoalPosition.getColumnIndex()) {//goalPosition
+                    System.out.print(" " + "\u001B[44m" + " ");
+                } else if (myMaze[i][j] == 1) System.out.print(" " + "\u001B[40m" + " ");
+                else System.out.print(" " + "\u001B[107m" + " ");
+            }
+            System.out.println(" " + "\u001B[107m");
         }
     }
 }
