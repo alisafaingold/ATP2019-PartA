@@ -32,8 +32,36 @@ public class Maze {
                 myMaze[i][j] = 1;
             }
         }
-        startPosition = new Position(0,0);
-        GoalPosition = new Position(0,0);
+        startPosition = new Position(0, 0);
+        GoalPosition = new Position(0, 0);
+    }
+
+    public Maze(byte[] bytesArr) {
+        if (bytesArr != null) {
+            this.row = copyArrayDecode(bytesArr, 0, 3);
+            this.column = copyArrayDecode(bytesArr, 3, 3);
+            int rowIndex = copyArrayDecode(bytesArr, 6, 3);
+            int colIndex = copyArrayDecode(bytesArr, 9, 3);
+            this.startPosition = new Position(rowIndex, colIndex);
+            rowIndex = copyArrayDecode(bytesArr, 12, 3);
+            colIndex = copyArrayDecode(bytesArr, 15, 3);
+            this.GoalPosition = new Position(rowIndex, colIndex);
+            myMaze = new int[row][column];
+            //Fill the maze with the values from the byte Array
+            fillMazeWithValues(bytesArr);
+        }
+        else {
+            this.row = 10;
+            this.column = 10;
+            myMaze = new int[row][column];
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < column; j++) {
+                    myMaze[i][j] = 1;
+                }
+            }
+            startPosition = new Position(0, 0);
+            GoalPosition = new Position(0, 0);
+        }
     }
 
     /**
@@ -158,6 +186,47 @@ public class Maze {
                 else System.out.print(" " + "\u001B[107m" + " ");
             }
             System.out.println(" " + "\u001B[107m");
+        }
+    }
+
+    private int decode(byte[] b, int startIndex, boolean returnIndex) {
+        int i, n = 0;
+        for (i = startIndex; i < b.length; i++) {
+            int curByte = b[i] & 0xFF;
+            n = (n << 7) | (curByte & 0x7F);
+            if ((curByte & 0x80) == 0)
+                break;
+        }
+        return returnIndex ? i : n;
+    }
+
+    private int copyArrayDecode(byte[] readFrom, int startR, int size) {
+        int times = 0;
+        byte[] writeTo = new byte[3];
+        for (int startW = 0; startW < writeTo.length && startR < readFrom.length && times < size; startR++, startW++) {
+            writeTo[startW] = readFrom[startR];
+        }
+        return decode(writeTo, 0, false);
+    }
+
+    private void fillMazeWithValues(byte[] bytesArr){
+        int timesToWrite, valueToWrite = 0, written = 0, indexToStart = 18;
+        timesToWrite = decode(bytesArr, indexToStart, false);
+        indexToStart = decode(bytesArr, indexToStart, true);
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                if (written < timesToWrite) {
+                    myMaze[i][j] = valueToWrite;
+                    written++;
+                }
+                else {
+                    valueToWrite ^= 1;
+                    written = 1;
+                    myMaze[i][j] = valueToWrite;
+                    timesToWrite = decode(bytesArr, indexToStart, false);
+                    indexToStart = decode(bytesArr, indexToStart, true);
+                }
+            }
         }
     }
 }

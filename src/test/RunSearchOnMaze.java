@@ -18,7 +18,9 @@ public class RunSearchOnMaze {
     public static void main(String[] args) {
         int numRelevantBits = 32 - Integer.numberOfLeadingZeros(9458);
         System.out.println(numRelevantBits);
-        System.out.println(9458&127);
+        int n = 0;
+        n^=1;
+        System.out.println(n);
 
         int primary = 9458;
         System.out.println(primary >>>=7);
