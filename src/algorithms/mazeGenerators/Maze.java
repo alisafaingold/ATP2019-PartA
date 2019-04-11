@@ -1,5 +1,9 @@
 package algorithms.mazeGenerators;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 /**
  * A class representing the maze
  */
@@ -32,8 +36,8 @@ public class Maze {
                 myMaze[i][j] = 1;
             }
         }
-        startPosition = new Position(0,0);
-        GoalPosition = new Position(0,0);
+        startPosition = new Position(0, 0);
+        GoalPosition = new Position(0, 0);
     }
 
     /**
@@ -160,4 +164,99 @@ public class Maze {
             System.out.println(" " + "\u001B[107m");
         }
     }
+
+    public byte[] toByteArray() {
+        //first part
+        int index =0;
+        int [] paramNumber = paramArrayNumber();
+        byte[] byteParam = new byte[18];
+        for(int i=0; i<6; i++){
+            byte[] numberToByte = encode(paramNumber[i]);
+           addArray(byteParam,numberToByte,index);
+            index=index+3;
+        }
+        //second part
+        ArrayList<byte[]> mazeByteList = new ArrayList<>();
+        int lookingValue=0;
+        int currCounter=0;
+        byte[] byteFirstGrid;
+        int mazeArraySize=0;
+        //encode maze
+        for(int i=0; i<row; i++){
+            for(int j=0; j<column; j++){
+                if(myMaze[i][j]==lookingValue){
+                    currCounter++;
+                }
+                else{
+                    byteFirstGrid = encode(currCounter);
+                    mazeByteList.add(byteFirstGrid);
+                    lookingValue^=1;
+                    currCounter=1;
+                }
+            }
+        }
+        //maze byte array size
+        for(int i=0; i<mazeByteList.size(); i++){
+            mazeArraySize=mazeArraySize+mazeByteList.get(i).length;
+        }
+        byte[] mazeByte = new byte[mazeArraySize];
+        //add to one array
+        for(int i=0; i<mazeByte.length; i++) {
+            for (byte byteToadd :
+                    mazeByteList.get(i)) {
+                mazeByte[i] = byteToadd;
+
+            }
+        }
+        //connecting two arrays
+        byte[] mazeObjectByte = new byte[byteParam.length + mazeByte.length];
+        System.arraycopy(byteParam, 0, mazeObjectByte, 0, byteParam.length);
+        System.arraycopy(mazeByte,0,mazeObjectByte,byteParam.length,mazeByte.length);
+        //return
+        return mazeObjectByte;
+    }
+
+    private int[] paramArrayNumber (){
+        int [] paramNumber= new int[6];
+        paramNumber[0] = this.row; //rowNumber
+        paramNumber[1] = this.column; //colNumber
+        paramNumber[2] = startPosition.getRowIndex(); //rowStart
+        paramNumber[3] = startPosition.getColumnIndex();//colStart
+        paramNumber[4] = GoalPosition.getRowIndex();//rowGoal
+        paramNumber[5] = GoalPosition.getColumnIndex();//colGoal
+        return paramNumber;
+    }
+
+    private void addArray(byte[] param, byte[] toAdd, int startIndex) {
+        int lengthToAdd = toAdd.length;
+        if (lengthToAdd < 3) {
+            while (lengthToAdd != 3) {
+                param[startIndex] = 0;
+                startIndex++;
+                lengthToAdd++;
+            }
+        }
+        for (int i = 0; i < toAdd.length; i++) {
+            param[startIndex] = toAdd[i];
+        }
+    }
+
+    private byte[] encode(int n) {
+        int numRelevantBits = 32 - Long.numberOfLeadingZeros(n);
+        int numBytes = (numRelevantBits + 6) / 7;
+        if (numBytes == 0)
+            numBytes = 1;
+        byte[] output = new byte[numBytes];
+        for (int i = numBytes - 1; i >= 0; i--) {
+            int curByte = (int) (n & 0x7F);
+            if (i != (numBytes - 1))
+                curByte |= 0x80;
+            output[i] = (byte) curByte;
+            n >>>= 7;
+        }
+        return output;
+    }
 }
+
+
+
